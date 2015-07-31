@@ -67,7 +67,6 @@ func (m *MetricsNozzle) processFirehose() {
 
 func (m *MetricsNozzle) handleMessage(envelope *events.Envelope) {
 	if envelope.GetOrigin() == m.config.OriginID {
-		// fmt.Fprintf("%v \n", envelope)
 		fmt.Fprintf(m.stdout, "%v \n", envelope)
 	}
 
