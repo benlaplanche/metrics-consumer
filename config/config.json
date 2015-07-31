@@ -1,0 +1,9 @@
+{
+  "UAAURL": "https://uaa.10.244.0.34.xip.io",
+  "Username": "admin",
+  "Password": "admin-secret",
+  "DopplerAddr": "wss://doppler.10.244.0.34.xip.io:4443",
+  "InsecureSSLSkipVerify": true,
+  "FirehoseSubscriptionId": "metrics-consumer-1",
+  "OriginID": "service-metrics"
+}
