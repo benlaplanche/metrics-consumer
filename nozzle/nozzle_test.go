@@ -10,9 +10,9 @@ import (
 	"github.com/cloudfoundry/sonde-go/events"
 	"github.com/gogo/protobuf/proto"
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
 	"log"
-	"os"
 	"strings"
 )
 
@@ -48,7 +48,7 @@ var _ = Describe("Nozzle", func() {
 		logOutput = gbytes.NewBuffer()
 		log.SetOutput(logOutput)
 
-		metrics_nozzle = nozzle.NewNozzle(configuration, tokenFetcher, GinkgoWriter)
+		metrics_nozzle = nozzle.NewNozzle(configuration, tokenFetcher, GinkgoWriter, GinkgoWriter)
 	})
 
 	JustBeforeEach(func() {
@@ -91,6 +91,7 @@ var _ = Describe("Nozzle", func() {
 		defer close(done)
 
 		go metrics_nozzle.Start()
+		Eventually(GinkgoWriter).Should(ContainSubstring("filteredMetric-1"))
 
 	}, 2)
 
