@@ -91,6 +91,7 @@ var _ = Describe("Nozzle", func() {
 		defer close(done)
 
 		go metrics_nozzle.Start()
+
 		Eventually(GinkgoWriter).Should(ContainSubstring("filteredMetric-1"))
 
 	}, 2)

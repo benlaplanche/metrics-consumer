@@ -15,8 +15,8 @@ type MetricsNozzle struct {
 	messages         chan *events.Envelope
 	authTokenFetcher AuthTokenFetcher
 	consumer         *noaa.Consumer
-	writer_stdout    io.Writer
-	writer_stderr    io.Writer
+	stdout           io.Writer
+	stderr           io.Writer
 }
 
 type AuthTokenFetcher interface {
@@ -29,8 +29,8 @@ func NewNozzle(config *config.ConsumerConfig, tokenFetcher AuthTokenFetcher, std
 		errs:             make(chan error),
 		messages:         make(chan *events.Envelope),
 		authTokenFetcher: tokenFetcher,
-		writer_stdout:    stdout,
-		writer_stderr:    stderr,
+		stdout:           stdout,
+		stderr:           stderr,
 	}
 }
 
@@ -68,12 +68,12 @@ func (m *MetricsNozzle) processFirehose() {
 func (m *MetricsNozzle) handleMessage(envelope *events.Envelope) {
 	if envelope.GetOrigin() == m.config.OriginID {
 		// fmt.Fprintf("%v \n", envelope)
-		fmt.Fprintf(m.writer_stdout, "%v \n", envelope)
+		fmt.Fprintf(m.stdout, "%v \n", envelope)
 	}
 
 }
 
 func (m *MetricsNozzle) handleError(err error) {
-	fmt.Fprintf(m.writer_stderr, "%v \n", err.Error())
+	fmt.Fprintf(m.stderr, "%v \n", err.Error())
 	m.consumer.Close()
 }
