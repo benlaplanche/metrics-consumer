@@ -6,7 +6,7 @@ import (
 	"github.com/benlaplanche/metrics-consumer/config"
 	"github.com/cloudfoundry/noaa"
 	"github.com/cloudfoundry/sonde-go/events"
-	"os"
+	"io"
 )
 
 type MetricsNozzle struct {
@@ -15,18 +15,22 @@ type MetricsNozzle struct {
 	messages         chan *events.Envelope
 	authTokenFetcher AuthTokenFetcher
 	consumer         *noaa.Consumer
+	writer_stdout    io.Writer
+	writer_stderr    io.Writer
 }
 
 type AuthTokenFetcher interface {
 	FetchAuthToken() string
 }
 
-func NewNozzle(config *config.ConsumerConfig, tokenFetcher AuthTokenFetcher) *MetricsNozzle {
+func NewNozzle(config *config.ConsumerConfig, tokenFetcher AuthTokenFetcher, stdout io.Writer, stderr io.Writer) *MetricsNozzle {
 	return &MetricsNozzle{
 		config:           config,
 		errs:             make(chan error),
 		messages:         make(chan *events.Envelope),
 		authTokenFetcher: tokenFetcher,
+		writer_stdout:    stdout,
+		writer_stderr:    stderr,
 	}
 }
 
@@ -63,12 +67,13 @@ func (m *MetricsNozzle) processFirehose() {
 
 func (m *MetricsNozzle) handleMessage(envelope *events.Envelope) {
 	if envelope.GetOrigin() == m.config.OriginID {
-		fmt.Printf("%v \n", envelope)
+		// fmt.Fprintf("%v \n", envelope)
+		fmt.Fprintf(m.writer_stdout, "%v \n", envelope)
 	}
 
 }
 
 func (m *MetricsNozzle) handleError(err error) {
-	fmt.Fprintf(os.Stderr, "%v \n", err.Error())
+	fmt.Fprintf(m.writer_stderr, "%v \n", err.Error())
 	m.consumer.Close()
 }

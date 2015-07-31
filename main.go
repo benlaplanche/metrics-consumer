@@ -6,6 +6,7 @@ import (
 	"github.com/benlaplanche/metrics-consumer/nozzle"
 	"github.com/cloudfoundry-incubator/datadog-firehose-nozzle/uaatokenfetcher"
 	"log"
+	"os"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 		InsecureSSLSkipVerify: config.InsecureSSLSkipVerify,
 	}
 
-	metrics_nozzle := nozzle.NewNozzle(config, tokenFetcher)
+	metrics_nozzle := nozzle.NewNozzle(config, tokenFetcher, os.Stdout, os.Stderr)
 	metrics_nozzle.Start()
 
 }
