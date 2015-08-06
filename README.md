@@ -6,7 +6,7 @@ Primarily used for acceptance testing, but could be easily adapted to suit other
 
 Inspiration taken from the [DataDog Firehose Nozzle](https://github.com/cloudfoundry-incubator/datadog-firehose-nozzle)
 
-*Yes it's missing tests at the moment*
+*Tests don't fully pass yet - in process of writing a [ginkgo matcher](github.com/benlaplanche/metrics-matcher)*
 
 ## Configuration
 
