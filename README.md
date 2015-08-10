@@ -33,7 +33,7 @@ Update the `config/config.json` file with the correct values for your environmen
 `DopplerAddr` - this is typically `doppler.xxx`
 `FirehoseSubscriptionID` - this should be unique, if you are running this binary lots of times in concurrent
 
-`OriginID` - this is the OriginID for which you want to filter the firehose. It currently only takes a single string, it could be adapted to take an array easily. 
+`OriginID` - this is the OriginID for which you want to filter the firehose. It currently only takes a single string, it could be adapted to take an array easily. If this is omitted or an empty string then the firehose is not filtered. 
 
 ## Building
 
