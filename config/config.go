@@ -7,13 +7,13 @@ import (
 )
 
 type ConsumerConfig struct {
-	UAAURL                 string
-	Username               string
-	Password               string
-	InsecureSSLSkipVerify  bool
-	DopplerAddr            string
-	FirehoseSubscriptionId string
-	OriginID               string
+	UAAURL                 string `json:"UAAURL"`
+	Username               string `json:"Username"`
+	Password               string `json:"Password"`
+	InsecureSSLSkipVerify  bool   `json:"InsecureSSLSkipVerify"`
+	DopplerAddr            string `json:"DopplerAddr"`
+	FirehoseSubscriptionId string `json:"FirehoseSubscriptionId"`
+	OriginID               string `json:"OriginID,omitempty"`
 }
 
 func Parse(configPath string) (*ConsumerConfig, error) {

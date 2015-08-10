@@ -40,7 +40,7 @@ func (m *MetricsNozzle) Start() {
 	authToken = m.authTokenFetcher.FetchAuthToken()
 
 	m.consumeFirehose(authToken)
-
+	fmt.Println("**Started consuming the firehose**")
 	m.processFirehose()
 }
 
@@ -66,7 +66,11 @@ func (m *MetricsNozzle) processFirehose() {
 }
 
 func (m *MetricsNozzle) handleMessage(envelope *events.Envelope) {
-	if envelope.GetOrigin() == m.config.OriginID {
+	if m.config.OriginID != "" {
+		if envelope.GetOrigin() == m.config.OriginID {
+			fmt.Fprintf(m.stdout, "%v \n", envelope)
+		}
+	} else {
 		fmt.Fprintf(m.stdout, "%v \n", envelope)
 	}
 
