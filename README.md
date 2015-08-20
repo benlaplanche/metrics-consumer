@@ -47,3 +47,16 @@ With `config.json` in the `config` dir
 
 Specifying a config file elsehwere
 `./metrics-consumer --config=run.json`
+
+## Errors
+
+If you get the following error `2015/08/20 15:01:16 Error getting oauth token: Received a status code 401 Unauthorized. Please check your username and password.`
+
+The user you are connecting with may not have the `doppler.firehose` scope on their client user. 
+
+You can add this as follows
+```
+uaac target https://uaa.10.244.0.34.xip.io --skip-ssl-validation
+uaac token get admin
+uaac client update admin --authorities "clients.read password.write clients.secret clients.write uaa.admin scim.write scim.read doppler.firehose"
+```
